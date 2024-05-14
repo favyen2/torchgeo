@@ -375,3 +375,40 @@ class Sentinel2(Sentinel):
             plt.suptitle(suptitle)
 
         return fig
+
+
+class Sentinel2Cropped(Sentinel):
+    filename_glob = "*.tif"
+    filename_regex = r"""
+        ^(?P<date>\d{4})
+        _.*$
+    """
+    date_format = "%Y"
+    all_bands = [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B8A",
+        "B09",
+        "B10",
+        "B11",
+        "B12",
+    ]
+    separate_files = False
+
+    def __init__(
+        self,
+        paths: str | Iterable[str] = "data",
+        crs: CRS | None = None,
+        res: float = 10,
+        bands: Sequence[str] | None = None,
+        transforms: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+        cache: bool = True,
+    ) -> None:
+        bands = bands or self.all_bands
+        super().__init__(paths, crs, res, bands, transforms, cache)

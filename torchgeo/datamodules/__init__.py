@@ -33,6 +33,7 @@ from .seco import SeasonalContrastS2DataModule
 from .sen12ms import SEN12MSDataModule
 from .sentinel2_cdl import Sentinel2CDLDataModule
 from .sentinel2_eurocrops import Sentinel2EuroCropsDataModule
+from .sentinel2_rasterized_eurocrops import Sentinel2RasterizedEuroCropsDataModule
 from .sentinel2_nccm import Sentinel2NCCMDataModule
 from .sentinel2_south_america_soybean import Sentinel2SouthAmericaSoybeanDataModule
 from .skippd import SKIPPDDataModule

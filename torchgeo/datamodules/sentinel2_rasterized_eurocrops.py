@@ -10,14 +10,14 @@ import torch
 from kornia.constants import DataKey, Resample
 from matplotlib.figure import Figure
 
-from ..datasets import EuroCrops, Sentinel2, random_bbox_assignment
+from ..datasets import RasterizedEuroCrops, Sentinel2Cropped, random_bbox_assignment
 from ..samplers import GridGeoSampler, RandomGeoSampler
 from ..samplers.utils import _to_tuple
 from ..transforms import AugmentationSequential
 from .geo import GeoDataModule
 
 
-class Sentinel2EuroCropsDataModule(GeoDataModule):
+class Sentinel2RasterizedEuroCropsDataModule(GeoDataModule):
     """LightningDataModule implementation for the EuroCrops and Sentinel2 datasets.
 
     Uses the train/val/test splits from the dataset.
@@ -33,7 +33,7 @@ class Sentinel2EuroCropsDataModule(GeoDataModule):
         num_workers: int = 0,
         **kwargs: Any,
     ) -> None:
-        """Initialize a new Sentinel2EuroCropsDataModule instance.
+        """Initialize a new Sentinel2RasterizedEuroCropsDataModule instance.
 
         Args:
             batch_size: Size of each mini-batch.
@@ -56,7 +56,7 @@ class Sentinel2EuroCropsDataModule(GeoDataModule):
                 self.sentinel2_kwargs[key[len(sentinel2_signature) :]] = val
 
         super().__init__(
-            EuroCrops,
+            RasterizedEuroCrops,
             batch_size,
             patch_size,
             length,
@@ -65,7 +65,7 @@ class Sentinel2EuroCropsDataModule(GeoDataModule):
         )
 
         self.train_aug = AugmentationSequential(
-            K.Normalize(mean=self.mean, std=self.std),
+            K.Normalize(mean=self.mean, std=torch.tensor(10000)),
             K.RandomResizedCrop(_to_tuple(self.patch_size), scale=(0.6, 1.0)),
             K.RandomVerticalFlip(p=0.5),
             K.RandomHorizontalFlip(p=0.5),
@@ -85,8 +85,8 @@ class Sentinel2EuroCropsDataModule(GeoDataModule):
         Args:
             stage: Either 'fit', 'validate', 'test', or 'predict'.
         """
-        self.sentinel2 = Sentinel2(**self.sentinel2_kwargs)
-        self.eurocrops = EuroCrops(**self.eurocrops_kwargs)
+        self.sentinel2 = Sentinel2Cropped(**self.sentinel2_kwargs)
+        self.eurocrops = RasterizedEuroCrops(**self.eurocrops_kwargs)
         self.dataset = self.sentinel2 & self.eurocrops
 
         generator = torch.Generator().manual_seed(0)
