@@ -12,6 +12,7 @@ from .moco import MoCoTask
 from .regression import PixelwiseRegressionTask, RegressionTask
 from .segmentation import SemanticSegmentationTask
 from .simclr import SimCLRTask
+from .segmentation_satlas import SatlasSemanticSegmentationTask
 
 __all__ = (
     # Supervised
@@ -21,6 +22,7 @@ __all__ = (
     "PixelwiseRegressionTask",
     "RegressionTask",
     "SemanticSegmentationTask",
+    "SatlasSemanticSegmentationTask",
     # Self-supervised
     "BYOLTask",
     "MoCoTask",

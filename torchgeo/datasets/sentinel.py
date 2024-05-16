@@ -284,11 +284,11 @@ class Sentinel2(Sentinel):
         "B06",
         "B07",
         "B08",
-        "B8A",
         "B09",
         "B10",
         "B11",
         "B12",
+        "B8A",
     ]
     rgb_bands = ["B04", "B03", "B02"]
 
@@ -393,11 +393,11 @@ class Sentinel2Cropped(Sentinel):
         "B06",
         "B07",
         "B08",
-        "B8A",
         "B09",
         "B10",
         "B11",
         "B12",
+        "B8A",
     ]
     separate_files = False
 

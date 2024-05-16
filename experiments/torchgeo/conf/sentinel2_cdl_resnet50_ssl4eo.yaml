@@ -13,7 +13,7 @@ model:
     model: "unet"
     backbone: "resnet50"
     weights: ResNet50_Weights.SENTINEL2_ALL_MOCO
-    freeze_backbone: True
+    freeze_backbone: False
     lr: 1e-2
     in_channels: 13
     num_classes: 6
